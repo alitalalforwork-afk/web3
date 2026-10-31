@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>1 November</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.162.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.162.0/examples/jsm/"
+  }
+}
+</script>
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; min-height: 100%; font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+html.locked, html.locked body { height: 100%; overflow: hidden; }
+canvas { display: block; }
+
+/* =============== INTRO (separate experience) =============== */
+#intro {
+  position: fixed; inset: 0; z-index: 100; overflow: hidden;
+  background: linear-gradient(120deg, #1A0712 0%, #2B0B1B 25%, #1A0712 50%, #2B0B1B 75%, #1A0712 100%);
+  background-size: 400% 400%;
+  animation: gradientMove 14s ease-in-out infinite alternate;
+  transition: opacity 0.9s ease;
+}
+#intro.leaving { opacity: 0; pointer-events: none; }
+@keyframes gradientMove {
+  0%   { background-position: 0% 30%; }
+  50%  { background-position: 60% 70%; }
+  100% { background-position: 100% 40%; }
+}
+/* black canvas background blends away over the gradient */
+#heartCanvasWrap { position: absolute; inset: 0; mix-blend-mode: screen; }
+
+#introUI {
+  position: absolute; left: 0; right: 0; bottom: 0; pointer-events: none;
+  padding: 0 24px calc(env(safe-area-inset-bottom, 0px) + 4vh);
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+}
+#introText {
+  display: flex; flex-direction: column; align-items: center;
+  opacity: 0; transform: translateY(14px);
+  transition: opacity 1.6s ease, transform 1.6s ease;
+}
+#introText.show { opacity: 1; transform: none; }
+#introText.show #continueBtn { pointer-events: auto; }
+#skipBtn {
+  pointer-events: auto; margin-top: 1.1rem; padding: 0.4rem 1.1rem; cursor: pointer;
+  font-family: inherit; font-weight: 300; font-size: 0.78rem; letter-spacing: 0.12em;
+  color: rgba(255, 214, 231, 0.75); background: transparent; border: none;
+  border-bottom: 1px solid rgba(255, 150, 200, 0.35);
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+#skipBtn:hover, #skipBtn:focus-visible { color: #fff0f6; border-color: rgba(255, 150, 200, 0.8); outline: none; }
+
+#introText h1 {
+  font-weight: 300; font-size: clamp(2.2rem, 7vw, 4.2rem); letter-spacing: 0.14em;
+  color: #fff0f6; text-transform: none;
+  text-shadow: 0 0 8px rgba(255, 158, 196, 0.65), 0 0 22px rgba(255, 77, 141, 0.4);
+  animation: neonPulse 3.5s ease-in-out infinite;
+}
+@keyframes neonPulse {
+  0%, 100% { text-shadow: 0 0 8px rgba(255, 158, 196, 0.65), 0 0 22px rgba(255, 77, 141, 0.4); }
+  50%      { text-shadow: 0 0 6px rgba(255, 158, 196, 0.5), 0 0 16px rgba(255, 77, 141, 0.28); }
+}
+#introText p {
+  margin-top: 0.7rem; font-weight: 300; letter-spacing: 0.1em;
+  font-size: clamp(1.1rem, 3.5vw, 2.1rem); color: #ffd6e7;
+}
+#continueBtn {
+  margin-top: 1.8rem; padding: 0.85rem 2.2rem; cursor: pointer;
+  font-family: inherit; font-weight: 300; font-size: 0.95rem; letter-spacing: 0.12em;
+  color: #fff0f6; background: transparent;
+  border: 1px solid rgba(255, 150, 200, 0.8); border-radius: 999px;
+  pointer-events: none;
+  box-shadow: 0 0 10px rgba(255, 77, 141, 0.25);
+  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+#continueBtn:hover, #continueBtn:focus-visible {
+  background: rgba(255, 77, 141, 0.18); outline: none;
+  box-shadow: 0 0 24px rgba(255, 77, 141, 0.6), inset 0 0 14px rgba(255, 77, 141, 0.25);
+}
+#continueBtn:active { transform: scale(0.97); }
+
+/* =============== MAIN WEBSITE (separate experience) =============== */
+:root {
+  --wine: #390817; --rose: #FF6B91; --soft: #FFC3D2; --cream: #FFF2ED; --deep: #371421;
+  --paper: #F9EEE2; --muted-rose: #A04460; --paper-text: #60404A;
+}
+#site {
+  display: none; opacity: 0; transition: opacity 1s ease;
+  background: var(--wine); color: var(--cream); min-height: 100vh;
+}
+#site.visible { opacity: 1; }
+
+.section {
+  min-height: 100vh; padding: 9vh 20px; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+
+/* Section 1 */
+#hero { text-align: center; background: radial-gradient(ellipse at 50% 30%, rgba(255,107,145,0.16) 0%, rgba(57,8,23,0) 65%), var(--wine); }
+#hero h2 { font-weight: 300; letter-spacing: 0.08em; color: var(--cream); font-size: clamp(1.9rem, 6vw, 3.2rem); }
+#hero .sub { margin-top: 1rem; font-weight: 300; font-size: clamp(1rem, 2.8vw, 1.25rem); color: var(--soft); letter-spacing: 0.03em; max-width: 30rem; }
+#hero .photo {
+  margin-top: 2.4rem; width: min(380px, 84vw); border-radius: 14px; display: block;
+  border: 6px solid var(--cream); box-shadow: 0 22px 50px rgba(0, 0, 0, 0.45), 0 0 40px rgba(255, 107, 145, 0.18);
+}
+
+/* ONE continuous paper letter.
+   Three letter colours: paper #F9EEE2 · muted rose #A04460 · deep text #60404A */
+.letter-wrap { background: var(--wine); padding: clamp(40px, 8vh, 90px) clamp(12px, 4vw, 30px) clamp(60px, 10vh, 110px); }
+.paper {
+  position: relative; width: 100%; max-width: 780px; margin: 0 auto; text-align: left;
+  background: linear-gradient(160deg, #FCF4EA 0%, #F9EEE2 55%, #F3E4D5 100%);
+  border: 1px solid var(--muted-rose); border-radius: 6px;
+  padding: clamp(46px, 9vw, 100px) clamp(30px, 9vw, 96px);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.45), 0 4px 14px rgba(0, 0, 0, 0.25), inset 0 0 60px rgba(160, 68, 96, 0.05);
+  font-family: 'Inter', system-ui, sans-serif; font-weight: 400;
+  color: var(--paper-text); font-size: clamp(1rem, 2.5vw, 1.12rem); line-height: 1.95;
+}
+.paper::before {
+  content: ""; position: absolute; inset: clamp(10px, 2vw, 18px); pointer-events: none;
+  border: 1px solid rgba(160, 68, 96, 0.35); border-radius: 3px;
+}
+.paper p { margin-bottom: 1.7em; overflow-wrap: anywhere; position: relative; }
+.paper p:last-child { margin-bottom: 0; }
+.paper .date {
+  text-align: right; font-family: 'Lora', Georgia, serif; font-style: italic;
+  color: var(--muted-rose); font-size: 1.05em; margin-bottom: 2.4em;
+}
+.paper .sign {
+  font-family: 'Lora', Georgia, serif; color: var(--muted-rose);
+  font-size: 1.3em; line-height: 1.5; margin-top: 2.2em;
+}
+
+/* Calendar */
+#calendarSection { padding-top: 14vh; background: linear-gradient(180deg, var(--wine) 0%, #2d0612 100%); }
+.calendar-holder { position: relative; width: 100%; max-width: 560px; margin-top: 70px; }
+.teddy {
+  position: absolute; left: 50%; top: -112px; width: 170px; transform: translateX(-50%);
+  z-index: 2; filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.35));
+}
+.calendar {
+  position: relative; z-index: 1; width: 100%;
+  background: linear-gradient(160deg, #A04460 0%, #86334d 100%);
+  color: var(--cream); border-radius: 26px; padding: clamp(26px, 5vw, 40px) clamp(14px, 4vw, 34px) clamp(22px, 4vw, 34px);
+  box-shadow: 0 24px 56px rgba(0, 0, 0, 0.45), 0 0 40px rgba(255, 107, 145, 0.12);
+  border: 1px solid rgba(255, 195, 210, 0.25);
+}
+.cal-head { display: flex; align-items: baseline; justify-content: center; gap: 0.7rem; margin-bottom: 1.3rem; }
+.cal-head h3 { font-weight: 300; font-size: clamp(1.6rem, 5vw, 2.2rem); letter-spacing: 0.14em; text-transform: uppercase; }
+.cal-head span { font-weight: 300; letter-spacing: 0.2em; color: var(--soft); font-size: 0.95rem; }
+.cal-week, .cal-grid { list-style: none; display: grid; grid-template-columns: repeat(7, 1fr); gap: clamp(4px, 1.4vw, 10px); }
+.cal-week { margin-bottom: 0.7rem; text-align: center; font-size: clamp(0.62rem, 2.2vw, 0.8rem); letter-spacing: 0.1em; text-transform: uppercase; color: var(--soft); }
+.day { aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: 300; font-size: clamp(0.85rem, 3vw, 1.1rem); background: rgba(255, 242, 237, 0.08); cursor: default; transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease, color 0.25s ease; }
+.day:hover { transform: translateY(-3px) scale(1.08); background: var(--soft); color: var(--deep); box-shadow: 0 8px 16px rgba(55, 20, 33, 0.4); }
+.day.first { background: var(--rose); color: var(--deep); font-weight: 400; box-shadow: 0 0 0 3px rgba(255, 195, 210, 0.35); }
+.day.first:hover { background: var(--soft); }
+.cal-message {
+  margin-top: 2.6rem; max-width: 30rem; text-align: center;
+  font-family: 'Lora', Georgia, serif; font-style: italic; font-weight: 400;
+  font-size: clamp(1.2rem, 3.6vw, 1.7rem); line-height: 1.6; color: var(--soft);
+  text-shadow: 0 0 24px rgba(255, 107, 145, 0.3);
+}
+@media (max-width: 480px) { .teddy { width: 138px; top: -90px; } .calendar-holder { margin-top: 54px; } }
+
+@media (prefers-reduced-motion: reduce) { #intro, #introText h1 { animation: none; } }
+
+/* ===== Decorative sections 4-7 ===== */
+.sec { position: relative; min-height: 100vh; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12vh 20px; }
+.sec > * { position: relative; z-index: 2; }
+.sec > .fx { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+.sec-title { font-weight: 300; letter-spacing: 0.14em; font-size: clamp(1.5rem, 5vw, 2.6rem); text-align: center; color: var(--cream); }
+.rv { opacity: 0; transform: translateY(28px); transition: opacity 1.5s ease, transform 1.5s ease; }
+.sec.in .rv { opacity: 1; transform: none; }
+.sec:not(.live) *, .sec:not(.live) *::before, .sec:not(.live) *::after { animation-play-state: paused !important; }
+.pt { position: absolute; bottom: -5%; border-radius: 50%; background: var(--pc); box-shadow: 0 0 8px var(--pc); opacity: 0; animation: ptf var(--t) linear infinite var(--dl); }
+@keyframes ptf { 0% { transform: translate(0, 0); opacity: 0; } 20% { opacity: .8; } 100% { transform: translate(var(--dx), -110vh); opacity: 0; } }
+
+/* 4 - Universe */
+#universe { background: radial-gradient(ellipse at 50% 55%, #5a1230 0%, #390817 45%, #1c040c 100%); }
+.star { position: absolute; border-radius: 50%; background: var(--cream); opacity: .3; animation: tw var(--d) ease-in-out infinite; }
+@keyframes tw { 50% { opacity: 1; transform: scale(1.7); } }
+.moon { position: absolute; top: 6%; right: 8%; width: clamp(70px, 14vw, 140px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #FFF2ED, #FFC3D2 72%, #e79bb0); box-shadow: 0 0 40px 10px rgba(255,195,210,.35), 0 0 120px 40px rgba(255,107,145,.22); animation: bob 9s ease-in-out infinite; }
+.moon::before { content: ""; position: absolute; left: 22%; top: 55%; width: 22%; height: 22%; border-radius: 50%; background: rgba(160,68,96,.18); box-shadow: 34px -26px 0 -2px rgba(160,68,96,.15); }
+@keyframes bob { 50% { transform: translateY(-10px); } }
+.const { position: absolute; inset: 0; width: 100%; height: 100%; }
+.const polyline { fill: none; stroke: rgba(255,195,210,.55); stroke-width: 1.2; stroke-dasharray: 700; stroke-dashoffset: 700; filter: drop-shadow(0 0 4px #FF6B91); }
+#universe.in .const polyline { animation: draw 4s ease forwards 1s; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+.const circle { fill: #FFF2ED; filter: drop-shadow(0 0 5px #FFC3D2); animation: tw 3s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.shoot { position: absolute; width: 130px; height: 2px; background: linear-gradient(90deg, #fff, rgba(255,195,210,0)); border-radius: 2px; opacity: 0; animation: shoot var(--t) linear infinite var(--dl); }
+@keyframes shoot { 0% { transform: translate(0,0) rotate(-35deg); opacity: 0; } 2% { opacity: 1; } 9% { transform: translate(-460px, 320px) rotate(-35deg); opacity: 0; } 100% { opacity: 0; } }
+.bigheart { width: min(56vw, 320px); margin-top: 3vh; animation: beat 2.4s ease-in-out infinite; filter: drop-shadow(0 0 22px rgba(255,107,145,.75)) drop-shadow(0 0 70px rgba(255,107,145,.45)); }
+.bigheart svg, .core svg { display: block; width: 100%; }
+@keyframes beat { 0%, 100% { transform: scale(1); } 12% { transform: scale(1.07); } 24% { transform: scale(1); } 36% { transform: scale(1.05); } 48% { transform: scale(1); } }
+
+/* 5 - Garden */
+#garden { justify-content: flex-start; padding-top: 12vh; background: linear-gradient(180deg, #FFF2ED 0%, #FFC3D2 70%, #ff9db6 100%); }
+#garden .sec-title { color: var(--deep); }
+.ground { position: absolute; left: 0; right: 0; bottom: 0; height: 9vh; z-index: 1 !important; background: linear-gradient(180deg, #7a9a66, #58774a); border-radius: 50% 50% 0 0 / 40% 40% 0 0; }
+.bed { position: absolute !important; inset: 0; z-index: 2; pointer-events: none; }
+.fl { position: absolute; bottom: 2vh; left: var(--x); transform-origin: 50% 100%; animation: swayf 5s ease-in-out infinite var(--sd); }
+.fl svg { display: block; overflow: visible; transform-origin: 50% 100%; transform: scaleY(0); }
+#garden.in .fl svg { animation: grow 2.6s cubic-bezier(.2,.8,.2,1) var(--dl) forwards; }
+.head { transform: scale(0); }
+#garden.in .head { animation: bloom 1.6s ease-out calc(var(--dl) + 2.2s) forwards; }
+@keyframes grow { to { transform: scaleY(1); } }
+@keyframes bloom { 0% { transform: scale(0); } 70% { transform: scale(1.18); } 100% { transform: scale(1); } }
+@keyframes swayf { 50% { transform: rotate(2.2deg); } 0%, 100% { transform: rotate(-2.2deg); } }
+.petal { position: absolute; top: -6%; width: var(--s); height: calc(var(--s) * 1.3); background: radial-gradient(circle at 30% 30%, #FFC3D2, #FF6B91); border-radius: 80% 0 80% 0; opacity: 0; animation: fall var(--t) linear infinite var(--dl); }
+@keyframes fall { 0% { transform: translate(0,0) rotate(0); opacity: 0; } 10% { opacity: .9; } 90% { opacity: .9; } 100% { transform: translate(var(--dx), 108vh) rotate(560deg); opacity: 0; } }
+.bf { position: absolute; width: 38px; animation: bfly var(--t) ease-in-out infinite var(--dl); }
+.bf svg { display: block; overflow: visible; }
+.bf .w { animation: flap .35s ease-in-out infinite alternate; transform-origin: 20px 15px; }
+@keyframes flap { to { transform: scaleX(.25); } }
+@keyframes bfly { 0% { transform: translate(0,0) rotate(8deg); } 25% { transform: translate(18vw,-9vh) rotate(-10deg); } 50% { transform: translate(36vw,3vh) rotate(12deg); } 75% { transform: translate(18vw,10vh) rotate(-8deg); } 100% { transform: translate(0,0) rotate(8deg); } }
+#garden .pt { --pc: #fff; }
+
+/* 6 - Window */
+#windowSec { background: linear-gradient(180deg, #2d0612 0%, #4a0f27 100%); }
+.floor { position: absolute; left: 0; right: 0; bottom: 0; height: 20%; background: linear-gradient(180deg, rgba(28,4,12,0), #1c040c); }
+.lampglow { position: absolute; right: 4%; bottom: 8%; width: min(60vw, 420px); aspect-ratio: 1; background: radial-gradient(circle, rgba(255,195,210,.28), transparent 65%); animation: breathe 5s ease-in-out infinite; }
+@keyframes breathe { 50% { opacity: .55; } }
+.room { position: relative; width: min(94vw, 780px); display: flex; justify-content: center; margin-top: 5vh; padding: 0 0 4vh; }
+.winwrap { position: relative; width: min(56vw, 340px); aspect-ratio: 4 / 5; }
+.winsvg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.mpulse { animation: breathe 5s ease-in-out infinite; }
+.beam { position: absolute; left: 50%; top: 82%; width: 150%; height: 70%; transform: translateX(-50%); background: linear-gradient(180deg, rgba(255,242,237,.3), rgba(255,242,237,0)); clip-path: polygon(22% 0, 78% 0, 118% 100%, -18% 100%); animation: breathe 6s ease-in-out infinite; z-index: 0; }
+.rod { position: absolute; z-index: 4; left: -22%; right: -22%; top: -3%; height: 8px; border-radius: 6px; background: #A04460; }
+.curt { position: absolute; z-index: 3; top: 0; width: 36%; height: 106%; transform-origin: top; background: repeating-linear-gradient(90deg, #FFC3D2 0 12%, #f09fb6 12% 22%, #FFC3D2 22% 34%); box-shadow: 0 10px 24px rgba(0,0,0,.3); animation: curtsway 6s ease-in-out infinite; }
+.cl { left: -14%; clip-path: polygon(0 0, 100% 0, 74% 55%, 100% 100%, 0 100%); }
+.cr { right: -14%; clip-path: polygon(0 0, 100% 0, 100% 100%, 26% 100%, 0 55%); animation-delay: -3s; }
+@keyframes curtsway { 0%, 100% { transform: skewX(-1.8deg); } 50% { transform: skewX(1.8deg); } }
+.vase { position: absolute; z-index: 2; left: 58%; bottom: 5.8%; width: 15%; }
+.bear { position: absolute; z-index: 3; left: 0; bottom: 3vh; width: clamp(96px, 20vw, 160px); filter: drop-shadow(0 6px 10px rgba(0,0,0,.4)); animation: bob 6s ease-in-out infinite; }
+.lamp { position: absolute; z-index: 3; right: 0; bottom: 3vh; width: clamp(40px, 8vw, 62px); filter: drop-shadow(0 0 18px rgba(255,195,210,.7)); }
+.dust { --pc: #FFF2ED; }
+#windowSec .sec-title { color: var(--soft); }
+
+/* 7 - Hearts */
+#hearts { background: radial-gradient(circle at 50% 50%, rgba(255,107,145,.3), transparent 55%), radial-gradient(circle at 15% 85%, rgba(160,68,96,.45), transparent 45%), linear-gradient(180deg, #2d0612, #390817 50%, #2a0511); }
+.h { position: absolute; bottom: -10%; left: var(--x); font-size: var(--s); line-height: 1; color: var(--c); text-shadow: 0 0 10px currentColor; opacity: 0; animation: hrise var(--t) linear infinite var(--dl); }
+.h.far { filter: blur(1.5px); }
+@keyframes hrise { 0% { transform: translate(0,0) scale(.6); opacity: 0; } 15% { opacity: var(--o); } 50% { transform: translate(var(--dx), -55vh) scale(1); } 85% { opacity: var(--o); } 100% { transform: translate(calc(var(--dx) * -1), -115vh) scale(1.1); opacity: 0; } }
+.core { position: relative; width: min(60vw, 340px); margin-top: 3vh; animation: beat 1.8s ease-in-out infinite; filter: drop-shadow(0 0 26px rgba(255,107,145,.8)) drop-shadow(0 0 80px rgba(255,107,145,.5)); }
+.ring { position: absolute; inset: 10%; border: 2px solid rgba(255,107,145,.55); border-radius: 50%; animation: ring 3.2s ease-out infinite; }
+@keyframes ring { 0% { transform: scale(.7); opacity: .8; } 100% { transform: scale(2.4); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .pt, .h, .petal, .shoot { display: none; } }
+</style>
+</head>
+
+<body>
+<!-- ================= INTRO ================= -->
+<div id="intro">
+  <div id="heartCanvasWrap"></div>
+  <div id="introUI">
+    <div id="introText">
+      <h1>1 November</h1>
+      <p>New Month, Same Journey</p>
+      <button id="continueBtn" type="button">Continue to Website</button>
+    </div>
+    <button id="skipBtn" type="button">Skip Animation</button>
+  </div>
+</div>
+
+<!-- ================= MAIN WEBSITE ================= -->
+<main id="site">
+  <section class="section" id="hero">
+    <h2>Today is November</h2>
+    <p class="sub">And I will love you more as per my promise.</p>
+    <img class="photo" src="img1.jpg" alt="" />
+  </section>
+
+  <section class="letter-wrap">
+    <article class="paper">
+      <p class="date">Today is 1 November </p>
+      <p>Ye Baat mein apko apni lap mein betha ke, Tight hug kar ke, apni lado ki neck pe kiss kar ke, </p>
+      <p>Apke ear mein bta Raha hun </p>
+      <p>Tou ab Apna sar mere shoulder pe rakhein </p>
+      <p>Or Sunday </p>
+      <p>I still remember the day you say me tha the month of October is always heavy for you</p>
+      <p>Or usi din se mene ye khud se promise Kiya tha ab esa khayal karu ga apka ke is Saal ye month apka Khushi se guzre ga, </p>
+      <p>Ab apko Kuch bhi yaad nahi anay Dunga past ka</p>
+      <p>Usi time socha tha ke Jo Marzi ho jaye mujhe Kuch bhi Karna ho</p>
+      <p>Mein is month </p>
+      <p>sab Kuch karu ga <br>Apke laad uthao ga <br>Apko payar karu ga <br>Apki choti choti baat suno ga<br>Apni shehzadi ko 1 single second bhi kami ni hony Dunga </p>
+      <p>Every single second apko special feel karwau ga,</p>
+      <p>Or ye sirf October ke liya nahi<br>Sari Zindagi ke liya hai</p>
+      <p>Mene puri Koshish ki apni ladli ko kush rakhu</p>
+      <p>Or agay sari life bhi karta Rahu ga</p>
+      <p>Aj ye site sirf is liya banayi ke mein apko ye bta saku ke Jo waqt Guzar gaya wo Guzar gaya </p>
+      <p>or jab aap ab life mein agay jaye gi tou apko past ke sirf Beautiful moments yaad rhy gay 🥹🫶🏻</p>
+      <p>Bas ab se precious moments yaad rakhne Meri lado ne </p>
+      <p>Jo mene is month Karne ki Koshish ki thi or ab agay bhi karu ga</p>
+      <p>Mein Aj bhi apni ladli ke 1 1 second Apke pas Hun </p>
+      <p>Or dekhna mein apki life kaise beautiful karta </p>
+      <p>Because my Ladli deserves this </p>
+      <p>Once Again Meri princess </p>
+      <p>Mein apko dubara kabhi heavy feel ni hony Dunga<br>Kabhi guilt ni hony Dunga <br>Kabhi pareshan ni hony Dunga </p>
+      <p>Aap mere pas hai, mein Apke pas Hun</p>
+      <p>Bas ab se khushiya hongi har second 🫶🏻🥰</p>
+      <p class="sign">One deep tight hug for you Meri Jan 😭🫶🏻</p>
+    </article>
+  </section>
+
+  <section class="section" id="calendarSection">
+    <div class="calendar-holder">
+      <svg class="teddy" viewBox="0 0 200 150" aria-hidden="true">
+        <!-- legs dangling over the edge -->
+        <ellipse cx="68" cy="132" rx="23" ry="17" fill="#B9794A"/>
+        <ellipse cx="132" cy="132" rx="23" ry="17" fill="#B9794A"/>
+        <ellipse cx="68" cy="136" rx="12" ry="9" fill="#F1CBA4"/>
+        <ellipse cx="132" cy="136" rx="12" ry="9" fill="#F1CBA4"/>
+        <!-- body -->
+        <ellipse cx="100" cy="106" rx="46" ry="38" fill="#C98A58"/>
+        <ellipse cx="100" cy="112" rx="26" ry="24" fill="#F1CBA4"/>
+        <!-- arms -->
+        <ellipse cx="57" cy="100" rx="13" ry="21" fill="#B9794A" transform="rotate(25 57 100)"/>
+        <ellipse cx="143" cy="100" rx="13" ry="21" fill="#B9794A" transform="rotate(-25 143 100)"/>
+        <!-- ears -->
+        <circle cx="62" cy="30" r="17" fill="#B9794A"/>
+        <circle cx="138" cy="30" r="17" fill="#B9794A"/>
+        <circle cx="62" cy="30" r="9" fill="#F1CBA4"/>
+        <circle cx="138" cy="30" r="9" fill="#F1CBA4"/>
+        <!-- head -->
+        <circle cx="100" cy="52" r="38" fill="#C98A58"/>
+        <ellipse cx="100" cy="64" rx="17" ry="13" fill="#F1CBA4"/>
+        <circle cx="86" cy="48" r="4" fill="#3A1F14"/>
+        <circle cx="114" cy="48" r="4" fill="#3A1F14"/>
+        <circle cx="87.3" cy="46.6" r="1.3" fill="#fff"/>
+        <circle cx="115.3" cy="46.6" r="1.3" fill="#fff"/>
+        <ellipse cx="100" cy="58" rx="6" ry="4.4" fill="#3A1F14"/>
+        <path d="M100 62 v4 M100 66 q-6 5 -11 1 M100 66 q6 5 11 1" stroke="#3A1F14" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <circle cx="76" cy="62" r="6" fill="#FFC3D2" opacity=".6"/>
+        <circle cx="124" cy="62" r="6" fill="#FFC3D2" opacity=".6"/>
+        <!-- bow & heart -->
+        <path d="M100 88 l-13 -8 v16 z M100 88 l13 -8 v16 z" fill="#FF6B91"/>
+        <circle cx="100" cy="88" r="4" fill="#A04460"/>
+      </svg>
+
+      <div class="calendar">
+        <div class="cal-head">
+          <h3>November</h3>
+          <span>2026</span>
+        </div>
+        <ul class="cal-week"><li>Sun</li><li>Mon</li><li>Tue</li><li>Wed</li><li>Thu</li><li>Fri</li><li>Sat</li></ul>
+        <ul class="cal-grid"><li class="day first"><span>1</span></li><li class="day"><span>2</span></li><li class="day"><span>3</span></li><li class="day"><span>4</span></li><li class="day"><span>5</span></li><li class="day"><span>6</span></li><li class="day"><span>7</span></li><li class="day"><span>8</span></li><li class="day"><span>9</span></li><li class="day"><span>10</span></li><li class="day"><span>11</span></li><li class="day"><span>12</span></li><li class="day"><span>13</span></li><li class="day"><span>14</span></li><li class="day"><span>15</span></li><li class="day"><span>16</span></li><li class="day"><span>17</span></li><li class="day"><span>18</span></li><li class="day"><span>19</span></li><li class="day"><span>20</span></li><li class="day"><span>21</span></li><li class="day"><span>22</span></li><li class="day"><span>23</span></li><li class="day"><span>24</span></li><li class="day"><span>25</span></li><li class="day"><span>26</span></li><li class="day"><span>27</span></li><li class="day"><span>28</span></li><li class="day"><span>29</span></li><li class="day"><span>30</span></li></ul>
+      </div>
+    </div>
+    <p class="cal-message">This month, I am going to love you more than before, day by day.</p>
+  </section>
+
+  <!-- SECTION 4: OUR LITTLE UNIVERSE -->
+  <section class="sec" id="universe">
+    <div class="fx" id="uFx"><div class="moon"></div><svg class="const" id="uConst" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice"></svg><i class="shoot" style="top:10%;left:80%;--dl:1s;--t:9s"></i><i class="shoot" style="top:25%;left:95%;--dl:5s;--t:12s"></i><i class="shoot" style="top:5%;left:60%;--dl:9s;--t:11s"></i></div>
+    <h2 class="sec-title rv">Our Little Universe</h2>
+    <div class="bigheart rv"><svg viewBox="0 0 100 92"><defs><linearGradient id="hg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC3D2"/><stop offset=".45" stop-color="#FF6B91"/><stop offset="1" stop-color="#A04460"/></linearGradient></defs><path d="M50 88C20 62 4 44 4 27 4 13 15 4 28 4c10 0 18 5 22 13 4-8 12-13 22-13 13 0 24 9 24 23 0 17-16 35-46 61z" fill="url(#hg1)"/><path d="M20 22c2-6 7-9 12-9" stroke="#FFF2ED" stroke-width="3" fill="none" stroke-linecap="round" opacity=".7"/></svg></div>
+  </section>
+
+  <!-- SECTION 5: A GARDEN FULL OF LOVE -->
+  <section class="sec" id="garden">
+    <div class="fx" id="gFx"></div>
+    <h2 class="sec-title rv">A Garden Full of Love</h2>
+    <div class="ground"></div><div class="bed" id="bed"></div>
+  </section>
+
+  <!-- SECTION 6: THE ROMANTIC WINDOW -->
+  <section class="sec" id="windowSec">
+    <div class="fx" id="wFx"><div class="floor"></div><div class="lampglow"></div></div>
+    <h2 class="sec-title rv">The Romantic Window</h2>
+    <div class="room rv">
+      <div class="winwrap">
+        <div class="beam"></div>
+        <div class="rod"></div>
+        <svg viewBox="0 0 400 500" class="winsvg">
+          <defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1c040c"/><stop offset="1" stop-color="#5a1230"/></linearGradient><radialGradient id="mg"><stop offset="0" stop-color="#FFF2ED"/><stop offset="1" stop-color="#FFC3D2"/></radialGradient></defs>
+          <path d="M14 484V190A186 186 0 0 1 386 190V484Z" fill="#FFF2ED"/>
+          <path d="M42 456V196A158 158 0 0 1 358 196V456Z" fill="url(#sky)"/>
+          <g id="wStars"></g>
+          <circle cx="285" cy="135" r="46" fill="#FFC3D2" opacity=".18" class="mpulse"/><circle cx="285" cy="135" r="28" fill="url(#mg)"/>
+          <g stroke="#FFF2ED" stroke-width="8"><path d="M200 40V456M42 270H358"/></g>
+          <path d="M42 456V196A158 158 0 0 1 358 196V456Z" fill="none" stroke="#F9EEE2" stroke-width="6"/>
+          <rect x="4" y="452" width="392" height="30" rx="8" fill="#F9EEE2"/><rect x="4" y="476" width="392" height="8" rx="4" fill="#A04460" opacity=".35"/>
+        </svg>
+        <div class="curt cl"></div><div class="curt cr"></div>
+        <svg class="vase" viewBox="0 0 60 90"><path d="M20 90c-6-14-6-28 4-34h12c10 6 10 20 4 34z" fill="#FFC3D2"/><path d="M30 56C30 40 26 28 22 18M30 56C30 36 36 26 42 16M30 56V12" stroke="#6E8B5B" stroke-width="2" fill="none"/><circle cx="22" cy="16" r="8" fill="#FF6B91"/><circle cx="42" cy="14" r="8" fill="#FFC3D2"/><circle cx="30" cy="10" r="8" fill="#FF6B91"/><circle cx="30" cy="10" r="3" fill="#A04460"/></svg>
+      </div>
+      <svg class="lamp" viewBox="0 0 60 120"><path d="M14 40L22 8h16l8 32z" fill="#FFF2ED" opacity=".95"/><rect x="28" y="40" width="4" height="62" fill="#A04460"/><ellipse cx="30" cy="106" rx="16" ry="6" fill="#A04460"/></svg>
+    </div>
+  </section>
+
+  <!-- SECTION 7: A THOUSAND HEARTS -->
+  <section class="sec" id="hearts">
+    <div class="fx" id="hFx"></div>
+    <h2 class="sec-title rv">A Thousand Hearts</h2>
+    <div class="core rv"><i class="ring"></i><i class="ring" style="animation-delay:1.6s"></i><svg viewBox="0 0 100 92"><defs><linearGradient id="hg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC3D2"/><stop offset=".5" stop-color="#FF6B91"/><stop offset="1" stop-color="#A04460"/></linearGradient></defs><path d="M50 88C20 62 4 44 4 27 4 13 15 4 28 4c10 0 18 5 22 13 4-8 12-13 22-13 13 0 24 9 24 23 0 17-16 35-46 61z" fill="url(#hg2)"/><path d="M20 22c2-6 7-9 12-9" stroke="#FFF2ED" stroke-width="3" fill="none" stroke-linecap="round" opacity=".7"/></svg></div>
+  </section>
+</main>
+
+<script>document.documentElement.classList.add('locked');</script>
+
+<script type="module">
+import * as THREE from 'three';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+
+// ---------------- Settings ----------------
+const COUNT = 10000;
+const HEART_SCALE = 2.2;
+const SCATTER_HOLD = 1.5;
+const ASSEMBLE_WINDOW = 8;
+const PARTICLE_DURATION = 1.5;
+const SETTLE_RATE = 4.2;
+const DRIFT_MIN = 30;
+const DRIFT_MAX = 70;
+const TEXT_REVEAL_AT = SCATTER_HOLD + ASSEMBLE_WINDOW + 1.2; // heart fully formed
+// Pink stars (was orange)
+const SWATCHES = [0xff4d8d, 0xff80ab, 0xff2e7e, 0x5a0f2e, 0xffb3d1];
+
+// ---------------- Scene ----------------
+const wrap = document.getElementById('heartCanvasWrap');
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 0.1, 1500);
+camera.position.z = 90;
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(innerWidth, innerHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+wrap.appendChild(renderer.domElement);
+
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, camera));
+composer.addPass(new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.35, 0.45, 0.7));
+composer.addPass(new OutputPass());
+
+// ---------------- Star sprite (pink) ----------------
+function createSprite() {
+  const size = 64, c = size / 2, outer = size * 0.45, inner = size * 0.2;
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = size;
+  const ctx = canvas.getContext('2d');
+  ctx.beginPath();
+  ctx.moveTo(c, c - outer);
+  for (let a = 0; a < 5; a++) {
+    const o = (a / 5) * Math.PI * 2 - Math.PI / 2;
+    ctx.lineTo(c + outer * Math.cos(o), c + outer * Math.sin(o));
+    const n = o + Math.PI / 5;
+    ctx.lineTo(c + inner * Math.cos(n), c + inner * Math.sin(n));
+  }
+  ctx.closePath();
+  const g = ctx.createRadialGradient(c, c, 0, c, c, outer);
+  g.addColorStop(0, 'rgba(255,255,255,1)');
+  g.addColorStop(0.3, 'rgba(255,225,238,0.9)');
+  g.addColorStop(0.6, 'rgba(255,160,205,0.6)');
+  g.addColorStop(1, 'rgba(255,70,150,0)');
+  ctx.fillStyle = g;
+  ctx.fill();
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.needsUpdate = true;
+  return tex;
+}
+
+// ---------------- Particle data ----------------
+const home = new Float32Array(COUNT * 3);
+const drift = new Float32Array(COUNT * 3);
+const positions = new Float32Array(COUNT * 3);
+const colors = new Float32Array(COUNT * 3);
+const baseColor = new Float32Array(COUNT * 3);
+
+const palette = SWATCHES.map((h) => new THREE.Color(h));
+const work = new THREE.Color();
+
+for (let i = 0; i < COUNT; i++) {
+  const i3 = i * 3;
+  const t = i / COUNT;
+  const th = t * Math.PI * 2;
+
+  const hx = 16 * Math.pow(Math.sin(th), 3);
+  const hy = 13 * Math.cos(th) - 5 * Math.cos(2 * th) - 2 * Math.cos(3 * th) - Math.cos(4 * th);
+  const hz = Math.sin(th * 4) * 2;
+  home[i3]     = hx * HEART_SCALE + (Math.random() - 0.5) * 0.2;
+  home[i3 + 1] = hy * HEART_SCALE + (Math.random() - 0.5) * 0.2;
+  home[i3 + 2] = hz + (Math.random() - 0.5) * 0.1;
+
+  const strength = DRIFT_MIN + Math.random() * (DRIFT_MAX - DRIFT_MIN);
+  const az = Math.random() * Math.PI * 2;
+  const pol = Math.acos(2 * Math.random() - 1);
+  drift[i3]     = Math.sin(pol) * Math.cos(az) * strength;
+  drift[i3 + 1] = Math.sin(pol) * Math.sin(az) * strength;
+  drift[i3 + 2] = Math.cos(pol) * strength * 0.5;
+
+  positions[i3]     = home[i3] + drift[i3];
+  positions[i3 + 1] = home[i3 + 1] + drift[i3 + 1];
+  positions[i3 + 2] = home[i3 + 2] + drift[i3 + 2];
+
+  const gp = (t * palette.length * 1.5) % palette.length;
+  const lo = Math.floor(gp);
+  const up = (lo + 1) % palette.length;
+  work.lerpColors(palette[lo], palette[up], gp - lo);
+  work.multiplyScalar(0.65 + Math.random() * 0.55);
+  baseColor[i3] = work.r;
+  baseColor[i3 + 1] = work.g;
+  baseColor[i3 + 2] = work.b;
+}
+
+const geometry = new THREE.BufferGeometry();
+geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+const material = new THREE.PointsMaterial({
+  size: 2.8, map: createSprite(), vertexColors: true, transparent: true,
+  blending: THREE.AdditiveBlending, depthWrite: false, sizeAttenuation: true, alphaTest: 0.01,
+});
+const points = new THREE.Points(geometry, material);
+scene.add(points);
+
+// Keep the heart in the upper part of the screen so the text fits underneath
+function layout() {
+  const aspect = innerWidth / innerHeight;
+  const s = Math.min(1, (0.9 * 103.9 * aspect) / 70, 1);
+  points.scale.setScalar(s);
+  points.position.y = 20 * s;
+}
+layout();
+
+// ---------------- Animation ----------------
+const smoothstep = (x) => x * x * (3 - 2 * x);
+const approach = (cur, target, rate, dt) => cur + (target - cur) * (1 - Math.exp(-rate * dt));
+
+const clock = new THREE.Clock();
+let elapsed = 0;
+let textShown = false;
+const introText = document.getElementById('introText');
+
+renderer.setAnimationLoop(() => {
+  const dt = Math.min(clock.getDelta(), 0.1);
+  elapsed += dt;
+
+  if (!textShown && elapsed >= TEXT_REVEAL_AT) {
+    textShown = true;
+    introText.classList.add('show');
+  }
+
+  for (let i = 0; i < COUNT; i++) {
+    const i3 = i * 3;
+    const t = i / COUNT;
+    const start = SCATTER_HOLD + t * (ASSEMBLE_WINDOW - PARTICLE_DURATION);
+    let assembly = (elapsed - start) / PARTICLE_DURATION;
+    assembly = Math.min(Math.max(assembly, 0), 1);
+    const scatter = 1 - smoothstep(assembly);
+
+    positions[i3]     = approach(positions[i3],     home[i3]     + drift[i3]     * scatter, SETTLE_RATE, dt);
+    positions[i3 + 1] = approach(positions[i3 + 1], home[i3 + 1] + drift[i3 + 1] * scatter, SETTLE_RATE, dt);
+    positions[i3 + 2] = approach(positions[i3 + 2], home[i3 + 2] + drift[i3 + 2] * scatter, SETTLE_RATE, dt);
+
+    const pulse = 0.65 + Math.sin(t * Math.PI * 7 + elapsed * 1.1) * 0.35;
+    const flicker = 0.85 + Math.sin(elapsed * 4 + i * 0.5) * 0.15;
+    const b = pulse * flicker * (1 - scatter * 0.75);
+    colors[i3]     = baseColor[i3]     * b;
+    colors[i3 + 1] = baseColor[i3 + 1] * b;
+    colors[i3 + 2] = baseColor[i3 + 2] * b;
+  }
+
+  geometry.attributes.position.needsUpdate = true;
+  geometry.attributes.color.needsUpdate = true;
+  composer.render();
+});
+
+addEventListener('resize', () => {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+  composer.setSize(innerWidth, innerHeight);
+  layout();
+});
+
+// ---------------- Continue / Skip -> main website ----------------
+const intro = document.getElementById('intro');
+const site = document.getElementById('site');
+let entered = false;
+
+function enterSite(fast) {
+  if (entered) return;
+  entered = true;
+  renderer.setAnimationLoop(null);        // stop the heart immediately
+  intro.classList.add('leaving');
+  if (fast) intro.style.transitionDuration = '0.2s';
+  setTimeout(() => {
+    geometry.dispose(); material.dispose(); renderer.dispose();
+    intro.remove();                       // intro disappears completely
+    document.documentElement.classList.remove('locked');
+    site.style.display = 'block';
+    window.scrollTo(0, 0);
+    requestAnimationFrame(() => site.classList.add('visible'));
+  }, fast ? 200 : 900);
+}
+
+document.getElementById('continueBtn').addEventListener('click', () => enterSite(false));
+document.getElementById('skipBtn').addEventListener('click', () => enterSite(true));
+</script>
+<script>
+// ===== Decorative sections 4-7 =====
+(function () {
+  const R = (a, b) => a + Math.random() * (b - a), P = (a) => a[Math.floor(Math.random() * a.length)];
+  const mk = (p, c, st, h) => { const e = document.createElement('div'); e.className = c; e.style.cssText = st; if (h) e.innerHTML = h; p.appendChild(e); return e; };
+  const small = innerWidth < 600;
+  const pts = (p, n, cols, cls) => { for (let i = 0; i < n; i++) { const s = R(2, 6); mk(p, 'pt ' + (cls || ''), `left:${R(0,100)}%;width:${s}px;height:${s}px;--pc:${P(cols)};--t:${R(10,22)}s;--dl:-${R(0,22)}s;--dx:${R(-60,60)}px`); } };
+
+  // Universe
+  const uFx = document.getElementById('uFx');
+  for (let i = 0; i < (small ? 55 : 100); i++) { const s = R(1, 3); mk(uFx, 'star', `left:${R(0,100)}%;top:${R(0,100)}%;width:${s}px;height:${s}px;--d:${R(2,6)}s;animation-delay:-${R(0,6)}s`); }
+  pts(uFx, small ? 12 : 24, ['#FFC3D2', '#FF6B91', '#FFF2ED']);
+  const C = [[[80,170],[190,100],[300,150],[270,280],[150,320]], [[690,90],[800,180],[760,310],[900,360],[950,230]], [[380,520],[490,460],[610,530]]];
+  document.getElementById('uConst').innerHTML = C.map(c => `<polyline points="${c.map(p => p.join(',')).join(' ')}"/>` + c.map(p => `<circle cx="${p[0]}" cy="${p[1]}" r="3.5" style="animation-delay:-${R(0,3)}s"/>`).join('')).join('');
+
+  // Garden
+  const rose = (c) => [0,60,120,180,240,300].map(a => `<ellipse cx="50" cy="52" rx="15" ry="20" fill="${c}" transform="rotate(${a} 50 70)"/>`).join('') + `<circle cx="50" cy="70" r="14" fill="#FF6B91"/><path d="M50 70m-7 0a7 7 0 1 1 7 7a11 11 0 1 1-11-11" stroke="#A04460" stroke-width="2.5" fill="none" stroke-linecap="round"/>`;
+  const tulip = (c) => `<path d="M30 40C28 72 40 88 50 90C60 88 72 72 70 40L60 52L50 34L40 52Z" fill="${c}"/><path d="M50 34C42 52 42 76 50 90C58 76 58 52 50 34Z" fill="#FFC3D2" opacity=".55"/>`;
+  const bed = document.getElementById('bed'), cols = ['#FF6B91', '#FF8FAB', '#E0527A', '#FFC3D2'], n = 10;
+  for (let i = 0; i < n; i++) {
+    const rs = i % 2 === 0, w = R(70, 112), x = (i + 0.5) / n * 100 + R(-2, 2);
+    const e = mk(bed, 'fl', `--x:${x}%;--sd:-${R(0,5)}s;--dl:${(i * .25).toFixed(2)}s;margin-left:-${w / 2}px`,
+      `<svg viewBox="0 0 100 300" style="width:${w}px"><path d="M50 300C46 230 56 160 50 85" stroke="#5E7A4B" stroke-width="4" fill="none" stroke-linecap="round"/><ellipse cx="36" cy="215" rx="16" ry="6" fill="#6E8B5B" transform="rotate(-35 36 215)"/><ellipse cx="64" cy="180" rx="16" ry="6" fill="#58774A" transform="rotate(35 64 180)"/><g class="head" style="transform-origin:50px ${rs ? 70 : 88}px">${rs ? rose(P(cols)) : tulip(P(cols))}</g></svg>`);
+  }
+  const gFx = document.getElementById('gFx');
+  for (let i = 0; i < (small ? 9 : 16); i++) { const s = R(9, 16); mk(gFx, 'petal', `left:${R(0,100)}%;--s:${s}px;--t:${R(9,16)}s;--dl:-${R(0,16)}s;--dx:${R(-90,90)}px`); }
+  for (let i = 0; i < 3; i++) mk(gFx, 'bf', `left:${R(5,40)}%;top:${R(22,55)}%;--t:${R(18,28)}s;--dl:-${R(0,18)}s`,
+    `<svg viewBox="0 0 40 30"><g class="w"><path d="M20 15C14 2 2 2 3 12C4 20 14 20 20 15Z" fill="#FF6B91"/><path d="M20 15C16 24 6 28 8 21C10 17 15 16 20 15Z" fill="#A04460"/></g><g class="w"><path d="M20 15C26 2 38 2 37 12C36 20 26 20 20 15Z" fill="#FF6B91"/><path d="M20 15C24 24 34 28 32 21C30 17 25 16 20 15Z" fill="#A04460"/></g><rect x="19" y="8" width="2" height="16" rx="1" fill="#371421"/></svg>`);
+  pts(gFx, small ? 10 : 18, ['#fff', '#FFC3D2']);
+
+  // Window
+  const ws = document.getElementById('wStars');
+  for (let i = 0; i < 26; i++) { const y = R(70, 440); ws.insertAdjacentHTML('beforeend', `<circle cx="${R(60,340)}" cy="${y}" r="${R(.8,2.2)}" fill="#FFF2ED" style="animation:tw ${R(2,5)}s ease-in-out infinite;animation-delay:-${R(0,5)}s;transform-box:fill-box;transform-origin:center"/>`); }
+  const t = document.querySelector('.teddy'); if (t) { const b = t.cloneNode(true); b.setAttribute('class', 'bear'); document.querySelector('#windowSec .room').appendChild(b); }
+  pts(document.getElementById('wFx'), small ? 10 : 20, ['#FFF2ED', '#FFC3D2'], 'dust');
+
+  // Hearts
+  const hFx = document.getElementById('hFx'), cs = ['#FF6B91', '#FFC3D2', '#A04460', '#FF8FAB'];
+  for (let i = 0; i < (small ? 80 : 190); i++) { const s = R(8, 38); const e = mk(hFx, 'h' + (s > 28 ? ' far' : ''), `--x:${R(0,100)}%;--s:${s}px;--c:${P(cs)};--o:${(s > 28 ? .35 : R(.5, .95)).toFixed(2)};--t:${(R(10, 26) * (s > 28 ? .8 : 1)).toFixed(1)}s;--dl:-${R(0,26)}s;--dx:${R(-50,50)}px`); e.textContent = '♥'; }
+  pts(hFx, small ? 10 : 22, ['#FFC3D2', '#FF6B91']);
+
+  // Scroll reveal + pause offscreen animations
+  const io = new IntersectionObserver(es => es.forEach(e => { e.target.classList.toggle('live', e.isIntersecting); if (e.isIntersecting) e.target.classList.add('in'); }), { threshold: 0.15 });
+  document.querySelectorAll('.sec').forEach(s => io.observe(s));
+})();
+</script>
+</body>
+</html>
