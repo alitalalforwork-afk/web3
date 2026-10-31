@@ -6,7 +6,7 @@
 <title>1 November</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&family=Lora:ital,wght@0,400;0,500;1,400&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
 
 <script type="importmap">
 {
@@ -297,6 +297,145 @@ canvas { display: block; }
 .pc { position: absolute; font-style: normal; color: #FF6B91; font-size: 16px; text-shadow: 0 0 8px #FF6B91; animation: cpulse 3s ease-in-out infinite; }
 .pc.tl { top: 18px; left: 22px; } .pc.tr { top: 18px; right: 22px; animation-delay: -1s; } .pc.bl { bottom: 18px; left: 22px; animation-delay: -2s; } .pc.br { bottom: 18px; right: 22px; animation-delay: -.5s; }
 .fz { position: absolute; bottom: -5%; left: var(--x); font-size: var(--s); color: var(--c); text-shadow: 0 0 8px currentColor; opacity: 0; animation: ptf var(--t) linear infinite var(--dl); }
+
+/* ===== Global heading font: Plus Jakarta Sans ===== */
+h1, h2, h3, h4, h5, h6,
+.sec-title, .promise-title, .pr-name, .pr-name span,
+.letter-title, .letter-sub, .cal-head h3, .dna-header h2, .dna-group h3 {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ===== Letter headings (inside the paper) ===== */
+.paper .letter-head { position: relative; text-align: center; margin-bottom: 2.6em; }
+.paper .letter-head::after {
+  content: ""; display: block; width: 72px; height: 1px; margin: 1.6em auto 0;
+  background: linear-gradient(90deg, transparent, var(--muted-rose), transparent);
+}
+.letter-title {
+  font-weight: 600; font-size: clamp(2.3rem, 8vw, 3.5rem); line-height: 1.15;
+  letter-spacing: 0.06em; color: var(--wine);
+}
+.letter-sub {
+  margin-top: 0.55em; font-weight: 400; font-style: italic; line-height: 1.4;
+  font-size: clamp(1.05rem, 3.6vw, 1.5rem); letter-spacing: 0.04em; color: var(--muted-rose);
+}
+
+/* ===== Our Love DNA ===== */
+.dna-wrap { padding: 10vh clamp(12px, 4vw, 30px); overflow-x: hidden; }
+.love-dna {
+  position: relative; width: 100%; max-width: 1100px; margin: 0 auto;
+  padding: clamp(22px, 4vw, 40px); border-radius: 24px; overflow: hidden;
+  background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 190, 215, 0.22);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(255, 107, 145, 0.1);
+  color: var(--cream); opacity: 0; transform: translateY(20px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+@media (min-width: 800px) { .love-dna { backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); } }
+.love-dna.visible { opacity: 1; transform: none; }
+.dna-content { position: relative; z-index: 3; }
+.dna-header { text-align: center; margin-bottom: 34px; }
+.dna-header h2 { font-weight: 300; font-size: clamp(1.7rem, 5vw, 2.6rem); margin: 0 0 10px; color: var(--soft); letter-spacing: 0.06em; }
+.dna-header p { color: #d9aabb; font-size: 0.95rem; }
+.dna-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 30px; }
+@media (min-width: 640px) { .dna-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 34px 28px; } }
+@media (min-width: 1000px) { .dna-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 30px 44px; } }
+.dna-group { min-width: 0; opacity: 0; transform: translateY(12px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.dna-group.visible { opacity: 1; transform: none; }
+.dna-group h3 { font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.14em; margin: 0 0 18px; color: #ff9fbd; line-height: 1.5; }
+.dna-group:nth-child(2) h3 { color: #e0b0ff; }
+.dna-group:nth-child(3) h3 { color: var(--soft); }
+.dna-chips { display: flex; flex-wrap: wrap; gap: 10px; }
+.dna-chip {
+  display: inline-flex; align-items: center; justify-content: center; max-width: 100%;
+  min-height: 40px; padding: 9px 15px; border-radius: 30px; font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.85rem; font-weight: 400; line-height: 1.2; color: #e6cbd6; text-align: center;
+  background: linear-gradient(rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.07)), #46162b;
+  border: 1px solid rgba(255, 190, 215, 0.2); cursor: pointer; outline: none;
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+  transition: color 0.3s ease, border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+.dna-chip:hover, .dna-chip:focus-visible { color: #fff; border-color: #ff8eae; box-shadow: 0 0 15px rgba(255, 130, 170, 0.25); }
+.dna-chip.related { color: #fff; border-color: rgba(255, 170, 200, 0.7); box-shadow: 0 0 14px rgba(255, 130, 170, 0.25); }
+.dna-chip.active {
+  color: #fff; border-color: #ff80aa; transform: scale(1.06);
+  background: linear-gradient(rgba(255, 105, 155, 0.24), rgba(255, 105, 155, 0.24)), #46162b;
+  box-shadow: 0 0 22px rgba(255, 105, 155, 0.45);
+}
+#dnaConnections { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+.dna-overlay {
+  position: absolute; inset: 0; pointer-events: none; z-index: 2;
+  background: linear-gradient(135deg, rgba(255, 105, 155, 0.035), transparent, rgba(190, 100, 255, 0.04));
+}
+.dna-hint { text-align: center; color: #c9a6b6; font-size: 0.8rem; margin-top: 28px; }
+.dna-reset {
+  display: block; margin: 16px auto 0; min-height: 44px; padding: 10px 24px; cursor: pointer;
+  font-family: 'Inter', system-ui, sans-serif; font-size: 0.9rem; color: var(--soft);
+  border: 1px solid rgba(255, 180, 205, 0.3); background: rgba(255, 255, 255, 0.06); border-radius: 30px;
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation; transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+.dna-reset:hover, .dna-reset:focus-visible { background: rgba(255, 105, 155, 0.15); box-shadow: 0 0 15px rgba(255, 105, 155, 0.2); outline: none; }
+@media (max-width: 600px) { .dna-wrap { padding: 7vh 10px; } .dna-grid { gap: 26px; } .dna-chip { font-size: 0.88rem; } }
+@media (prefers-reduced-motion: reduce) {
+  .love-dna, .love-dna *, .love-dna *::before, .love-dna *::after { animation: none !important; transition: none !important; }
+  .love-dna, .dna-group { opacity: 1; transform: none; }
+}
+
+/* ===== Universe: continuous night sky -> mountains + Unlock My Heart ===== */
+#universe { justify-content: flex-start; padding: 0 0 14vh; background: linear-gradient(180deg,#0a1130 0%,#0e1a3d 22%,#122448 45%,#0f1d3e 68%,#0a1228 88%,#070c1d 100%); }
+#universe > .world { position: absolute; inset: 0; z-index: 0 !important; overflow: hidden; pointer-events: none; }
+#universe > .fx { bottom: auto; height: 100vh; min-height: 640px; z-index: 1 !important; }
+#universe .moon { background: radial-gradient(circle at 38% 36%,#fffdf6,#eef1ff 60%,#b9c4ea); box-shadow: 0 0 46px 10px rgba(200,215,255,.38), 0 0 150px 54px rgba(140,165,255,.2); }
+#universe .moon::before { background: rgba(120,135,185,.22); box-shadow: 34px -26px 0 -2px rgba(120,135,185,.18); }
+.world .cl { position: absolute; left: var(--x); top: var(--y); width: var(--w); height: var(--h); border-radius: 50%; filter: blur(16px); opacity: var(--o);
+  background: radial-gradient(ellipse at 30% 50%, rgba(205,218,255,.5), transparent 60%), radial-gradient(ellipse at 70% 55%, rgba(160,178,235,.4), transparent 62%), radial-gradient(ellipse at 50% 40%, rgba(225,232,255,.35), transparent 55%);
+  animation: cdrift var(--t) ease-in-out infinite alternate; }
+@keyframes cdrift { to { transform: translateX(var(--dx)); } }
+.world .mtn { position: absolute; left: 0; right: 0; bottom: 0; height: min(1300px, 62%); -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 38%); mask-image: linear-gradient(180deg, transparent 0, #000 38%); }
+.world .mtn svg { position: absolute; left: 0; bottom: 0; width: 100%; display: block; }
+.world .fog { position: absolute; left: 0; right: 0; height: 22%; background: linear-gradient(180deg, transparent, rgba(130,150,215,.16), transparent); }
+
+.uhero { position: relative; z-index: 2; min-height: 100vh; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12vh 20px; }
+.unlock { position: relative; z-index: 2; width: 100%; max-width: 980px; padding: 4vh 16px 0; display: flex; flex-direction: column; align-items: center; text-align: center; color: #fff2ed; }
+.uh-title { font-weight: 300; letter-spacing: .12em; font-size: clamp(1.7rem, 6vw, 3rem); text-shadow: 0 0 24px rgba(255,150,185,.45); }
+.uh-sub { margin-top: .8rem; font-weight: 300; letter-spacing: .05em; font-size: clamp(.95rem, 3.2vw, 1.15rem); color: rgba(235,230,255,.88); max-width: 30em; line-height: 1.6; }
+.uh-bar { margin-top: 1.5rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+.uh-count { font-size: .82rem; letter-spacing: .14em; color: rgba(215,222,255,.8); }
+.surprise { cursor: pointer; font: inherit; font-size: .95rem; letter-spacing: .08em; color: #fff2ed; padding: .65rem 1.4rem; border-radius: 999px; border: 1px solid rgba(255,170,200,.6); background: linear-gradient(135deg, rgba(255,107,145,.45), rgba(160,68,96,.5)); box-shadow: 0 0 22px rgba(255,107,145,.35); transition: transform .25s, box-shadow .25s; -webkit-tap-highlight-color: transparent; }
+.surprise:hover { transform: translateY(-2px) scale(1.04); box-shadow: 0 0 32px rgba(255,107,145,.6); }
+.hearts { margin-top: 3.2rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 1.4rem 1.2rem; width: 100%; }
+.hb { position: relative; width: clamp(88px, 17vw, 140px); aspect-ratio: 1; padding: 0; border: 0; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent; transform: rotate(var(--r)) scale(var(--sc)); transition: transform .45s cubic-bezier(.2,.9,.3,1.3); }
+.hb:nth-child(3n+2) { margin-top: 26px; } .hb:nth-child(5n+4) { margin-top: -10px; }
+.hb .fl2 { position: absolute; inset: 0; animation: hfloat var(--ft) ease-in-out infinite var(--fd); }
+@keyframes hfloat { 50% { transform: translateY(-9px); } }
+.hb svg { width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 10px 14px rgba(0,0,0,.45)) drop-shadow(0 0 14px var(--glow)); transition: filter .4s; }
+.hb:hover, .hb:focus-visible { transform: rotate(0) scale(calc(var(--sc) * 1.1)); outline: none; }
+.hb:focus-visible svg { filter: drop-shadow(0 0 4px #fff) drop-shadow(0 0 18px var(--glow)); }
+.hb .num { position: absolute; left: 0; right: 0; bottom: 14%; text-align: center; font-size: .7rem; letter-spacing: .12em; color: rgba(255,242,237,.9); pointer-events: none; text-shadow: 0 1px 3px rgba(80,10,40,.7); }
+.hb .shk { transform-box: fill-box; transform-origin: 100% 100%; transition: transform .5s cubic-bezier(.3,1.5,.5,1); }
+.hb .key { opacity: .85; transition: opacity .3s; }
+.hb.locked svg { filter: drop-shadow(0 10px 14px rgba(0,0,0,.45)) drop-shadow(0 0 8px var(--glow)) saturate(.85) brightness(.92); }
+.hb.unlocking { transform: scale(calc(var(--sc) * 1.25)) !important; z-index: 3; }
+.hb.unlocking .shk, .hb.opened .shk { transform: translateY(-6px) rotate(-38deg); }
+.hb.unlocking .key { opacity: 1; animation: keyg .5s ease-in-out infinite; }
+@keyframes keyg { 50% { fill: #fff; filter: drop-shadow(0 0 6px #fff); } }
+.hb.opened svg { filter: drop-shadow(0 8px 12px rgba(0,0,0,.4)) drop-shadow(0 0 22px var(--glow)) brightness(1.18) saturate(1.1); }
+.hb.opened .lk { opacity: .55; }
+.hb .spk { position: absolute; width: 5px; height: 5px; border-radius: 50%; background: #fff; box-shadow: 0 0 8px #ffd0e0; opacity: 0; animation: spk 2.6s ease-in-out infinite var(--sd); pointer-events: none; }
+@keyframes spk { 50% { opacity: .95; transform: scale(1.5); } }
+.burst { position: fixed; z-index: 400; pointer-events: none; left: var(--x); top: var(--y); font-size: var(--s); color: var(--c); text-shadow: 0 0 8px var(--c); animation: burst 1.3s ease-out forwards; }
+@keyframes burst { from { transform: translate(-50%,-50%) scale(.4); opacity: 1; } to { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1); opacity: 0; } }
+.lm { position: fixed; inset: 0; z-index: 500; display: flex; align-items: center; justify-content: center; padding: 20px; background: rgba(5,9,26,.74); opacity: 0; visibility: hidden; transition: opacity .4s, visibility .4s; }
+.lm.on { opacity: 1; visibility: visible; }
+.lc { position: relative; width: min(92vw, 460px); max-height: 86vh; overflow: auto; text-align: center; padding: 2.6rem 1.8rem 2.2rem; border-radius: 24px; background: radial-gradient(circle at 50% 0, #fffaf5, #ffe9ee 85%); border: 1px solid rgba(255,160,190,.9); box-shadow: 0 0 0 5px rgba(255,170,200,.18), 0 0 50px rgba(255,120,165,.45), 0 24px 60px rgba(0,0,0,.5); transform: translateY(30px) scale(.82) rotateX(24deg); opacity: 0; }
+.lm.on .lc { animation: lcIn .75s cubic-bezier(.2,.9,.3,1.15) .05s forwards; }
+@keyframes lcIn { to { transform: none; opacity: 1; } }
+.lc .orn { color: #d9728f; letter-spacing: .5em; font-size: .9rem; }
+.lc .no { margin-top: .5rem; font-size: .74rem; letter-spacing: .3em; color: #b2566f; }
+.lc .msg { margin: 1.3rem 0 1.2rem; font-family: Georgia, 'Times New Roman', serif; font-style: italic; font-size: clamp(1.3rem, 5vw, 1.8rem); line-height: 1.45; color: #7a1f3d; }
+.lc .x { position: absolute; top: 10px; right: 12px; width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(160,50,90,.35); background: rgba(255,255,255,.6); color: #8a2547; font-size: 1.4rem; line-height: 1; cursor: pointer; transition: transform .25s, background .25s; }
+.lc .x:hover { transform: rotate(90deg); background: #fff; }
+html.modal-open { overflow: hidden; }
+@media (prefers-reduced-motion: reduce) { .hb .fl2, .world .cl, .hb .spk { animation: none; } }
 </style>
 </head>
 
@@ -310,7 +449,7 @@ canvas { display: block; }
       <p>New Month, Same Journey</p>
       <button id="continueBtn" type="button">Continue to Website</button>
     </div>
-    <button id="skipBtn" type="button">Skip Animation</button>
+
   </div>
 </div>
 
@@ -370,6 +509,10 @@ canvas { display: block; }
 
   <section class="letter-wrap">
     <article class="paper">
+      <header class="letter-head">
+        <h2 class="letter-title">Letter</h2>
+        <h3 class="letter-sub">To My Little Princess</h3>
+      </header>
       <p class="date">Today is 1 November </p>
       <p>Ye Baat mein apko apni lap mein betha ke, Tight hug kar ke, apni lado ki neck pe kiss kar ke, </p>
       <p>Apke ear mein bta Raha hun </p>
@@ -447,11 +590,37 @@ canvas { display: block; }
     <p class="cal-message">This month, I am going to love you more than before, day by day.</p>
   </section>
 
+  <!-- OUR LOVE DNA -->
+  <section class="dna-wrap" id="dnaSection">
+    <div class="love-dna" id="loveDNA">
+      <div class="dna-content">
+        <div class="dna-header">
+          <h2>Our Love DNA ❤️</h2>
+          <p>Two Souls, One Connection.</p>
+        </div>
+        <div class="dna-grid" id="dnaGrid"></div>
+        <p class="dna-hint">Select any quality to discover our connections.</p>
+        <button class="dna-reset" id="dnaReset" type="button">Reset Connections ↻</button>
+      </div>
+      <canvas id="dnaConnections" aria-hidden="true"></canvas>
+      <div class="dna-overlay"></div>
+    </div>
+  </section>
+
   <!-- SECTION 4: OUR LITTLE UNIVERSE -->
   <section class="sec" id="universe">
+    <div class="world" id="uWorld"></div>
     <div class="fx" id="uFx"><div class="moon"></div><svg class="const" id="uConst" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice"></svg><i class="shoot" style="top:10%;left:80%;--dl:1s;--t:9s"></i><i class="shoot" style="top:25%;left:95%;--dl:5s;--t:12s"></i><i class="shoot" style="top:5%;left:60%;--dl:9s;--t:11s"></i></div>
+    <div class="uhero">
     <h2 class="sec-title rv">Our Little Universe</h2>
     <div class="bigheart rv"><svg viewBox="0 0 100 92"><defs><linearGradient id="hg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC3D2"/><stop offset=".45" stop-color="#FF6B91"/><stop offset="1" stop-color="#A04460"/></linearGradient></defs><path d="M50 88C20 62 4 44 4 27 4 13 15 4 28 4c10 0 18 5 22 13 4-8 12-13 22-13 13 0 24 9 24 23 0 17-16 35-46 61z" fill="url(#hg1)"/><path d="M20 22c2-6 7-9 12-9" stroke="#FFF2ED" stroke-width="3" fill="none" stroke-linecap="round" opacity=".7"/></svg></div>
+    </div>
+    <div class="unlock" id="unlock">
+      <h2 class="uh-title rv">Unlock My Heart ❤️</h2>
+      <p class="uh-sub rv">Some little things I want you to know, one heart at a time.</p>
+      <div class="uh-bar rv"><span class="uh-count" id="uhCount"></span><button type="button" class="surprise" id="surprise">Surprise Me ❤️</button></div>
+      <div class="hearts" id="hearts"></div>
+    </div>
   </section>
 
 
@@ -796,6 +965,339 @@ document.getElementById('skipBtn').addEventListener('click', () => enterSite(tru
 (function () {
   const p = document.getElementById('pFx'), R = (a, b) => a + Math.random() * (b - a), G = ['♥', '✿', '✦'], C = ['#FF6B91', '#FFC3D2', '#FFF2ED'];
   for (let i = 0; i < (innerWidth < 600 ? 14 : 26); i++) { const e = document.createElement('span'); e.className = 'fz'; e.textContent = G[i % 3]; e.style.cssText = `--x:${R(0,98)}%;--s:${R(10,22).toFixed(0)}px;--c:${C[i % 3]};--t:${R(10,20).toFixed(1)}s;--dl:-${R(0,20).toFixed(1)}s;--dx:${R(-50,50).toFixed(0)}px`; p.appendChild(e); }
+})();
+</script>
+<script>
+// ===== Our Love DNA =====
+(function () {
+  const DNA_GROUPS = [
+    { title: "His DNA ❤️", items: ["Caring", "Protective", "Patient", "Understanding", "Supportive", "Responsible", "Deeply Loving"] },
+    { title: "Her DNA 🎀", items: ["Cute", "Adorable", "Sweet", "Innocent", "Sensitive", "Emotional", "Loving", "Caring"] },
+    { title: "Our Emotional Connection 🫶🏻", items: ["Trust", "Loyalty", "Understanding", "Affection", "Happiness", "Shared Dreams", "Commitment", "Unbreakable Bond", "Forever Connection"] }
+  ];
+
+  const CONNECTIONS = {
+    "Caring": ["Caring", "Affection", "Happiness", "Trust"],
+    "Protective": ["Sensitive", "Innocent", "Trust", "Emotional Safety"],
+    "Patient": ["Emotional", "Understanding", "Commitment"],
+    "Understanding": ["Emotional", "Sensitive", "Understanding", "Trust"],
+    "Supportive": ["Emotional", "Shared Dreams", "Happiness"],
+    "Responsible": ["Innocent", "Trust", "Commitment", "Shared Dreams"],
+    "Deeply Loving": ["Loving", "Cute", "Affection", "Forever Connection", "Unbreakable Bond"],
+    "Cute": ["Deeply Loving", "Happiness", "Affection"],
+    "Adorable": ["Caring", "Happiness", "Forever Connection"],
+    "Sweet": ["Caring", "Affection", "Loyalty"],
+    "Innocent": ["Protective", "Responsible", "Trust"],
+    "Sensitive": ["Protective", "Understanding", "Emotional"],
+    "Emotional": ["Patient", "Supportive", "Understanding"],
+    "Loving": ["Deeply Loving", "Affection", "Unbreakable Bond"],
+    "Trust": ["Caring", "Protective", "Responsible", "Loyalty", "Unbreakable Bond"],
+    "Loyalty": ["Sweet", "Deeply Loving", "Commitment"],
+    "Affection": ["Caring", "Cute", "Loving", "Happiness"],
+    "Happiness": ["Cute", "Adorable", "Supportive", "Forever Connection"],
+    "Shared Dreams": ["Supportive", "Responsible", "Commitment"],
+    "Commitment": ["Patient", "Responsible", "Loyalty", "Shared Dreams"],
+    "Unbreakable Bond": ["Deeply Loving", "Loving", "Trust", "Forever Connection"],
+    "Forever Connection": ["Deeply Loving", "Adorable", "Happiness", "Unbreakable Bond"]
+  };
+
+  const section = document.getElementById("loveDNA");
+  const grid = document.getElementById("dnaGrid");
+  const canvas = document.getElementById("dnaConnections");
+  const ctx = canvas.getContext("2d");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const isSmall = () => window.matchMedia("(max-width: 639px)").matches;
+
+  // A few names (Caring, Understanding) appear in more than one group,
+  // so every chip gets a unique key: groupIndex + name.
+  const chipEls = new Map();      // key -> element
+  const keysByName = new Map();   // name -> [keys]
+  let hover = null, pinned = null, active = null, inView = false;
+  let pos = new Map(), raf = 0, lastT = 0;
+
+  DNA_GROUPS.forEach((group, gi) => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "dna-group";
+    wrapper.style.transitionDelay = (gi * 0.12) + "s";
+    const heading = document.createElement("h3");
+    heading.textContent = group.title;
+    const chips = document.createElement("div");
+    chips.className = "dna-chips";
+
+    group.items.forEach(name => {
+      const key = gi + ":" + name;
+      const chip = document.createElement("button");
+      chip.type = "button";
+      chip.className = "dna-chip";
+      chip.dataset.key = key;
+      chip.dataset.name = name;
+      chip.textContent = name;
+
+      // mouse hover only; touch devices use tap (click) so the two never fight
+      chip.addEventListener("pointerenter", e => { if (e.pointerType === "mouse") { hover = key; refresh(); } });
+      chip.addEventListener("pointerleave", e => { if (e.pointerType === "mouse") { hover = null; refresh(); } });
+      chip.addEventListener("focus", () => { if (chip.matches(":focus-visible")) { hover = key; refresh(); } });
+      chip.addEventListener("blur", () => { if (hover === key) { hover = null; refresh(); } });
+      chip.addEventListener("click", () => { pinned = pinned === key ? null : key; refresh(); });
+
+      chips.appendChild(chip);
+      chipEls.set(key, chip);
+      if (!keysByName.has(name)) keysByName.set(name, []);
+      keysByName.get(name).push(key);
+    });
+
+    wrapper.append(heading, chips);
+    grid.appendChild(wrapper);
+  });
+
+  // Build unique edge list once
+  const edgeList = [];
+  const seen = new Set();
+  chipEls.forEach((el, key) => {
+    (CONNECTIONS[el.dataset.name] || []).forEach(target => {
+      (keysByName.get(target) || []).forEach(k2 => {
+        if (k2 === key) return;
+        const id = [key, k2].sort().join("|");
+        if (seen.has(id)) return;
+        seen.add(id);
+        edgeList.push([key, k2]);
+      });
+    });
+  });
+
+  function refresh() {
+    active = hover || pinned;
+    const related = new Set();
+    if (active) edgeList.forEach(([a, b]) => { if (a === active) related.add(b); else if (b === active) related.add(a); });
+    chipEls.forEach((el, key) => {
+      el.classList.toggle("active", key === active);
+      el.classList.toggle("related", related.has(key));
+    });
+    cancelAnimationFrame(raf); raf = 0;
+    if (active && !reduce) raf = requestAnimationFrame(loop);
+    else draw(0);
+  }
+
+  function loop(ts) {
+    raf = requestAnimationFrame(loop);
+    if (!inView) return;
+    if (isSmall() && ts - lastT < 33) return;   // ~30fps on phones
+    lastT = ts;
+    draw(ts);
+  }
+
+  function updatePositions() {
+    pos = new Map();
+    const base = canvas.getBoundingClientRect();
+    chipEls.forEach((el, key) => {
+      const r = el.getBoundingClientRect();
+      pos.set(key, { x: r.left - base.left + r.width / 2, y: r.top - base.top + r.height / 2 });
+    });
+  }
+
+  function resizeCanvas() {
+    const dpr = Math.min(window.devicePixelRatio || 1, isSmall() ? 1.25 : 1.5);
+    const r = canvas.getBoundingClientRect();
+    const w = Math.max(1, Math.round(r.width * dpr));
+    const h = Math.max(1, Math.round(r.height * dpr));
+    if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; }
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    updatePositions();
+    draw(performance.now());
+  }
+
+  function draw(time) {
+    const r = canvas.getBoundingClientRect();
+    ctx.clearRect(0, 0, r.width, r.height);
+    const small = isSmall();
+
+    edgeList.forEach(([a, b], i) => {
+      const A = pos.get(a), B = pos.get(b);
+      if (!A || !B) return;
+      const on = !!active && (a === active || b === active);
+      if (small && !on) return;               // idle lines hidden on phones to keep it clean
+
+      const alpha = active ? (on ? 0.8 : 0.025) : 0.1;
+      const dx = B.x - A.x, dy = B.y - A.y;
+      const curve = Math.hypot(dx, dy) * 0.2;
+      const angle = Math.atan2(dy, dx) + Math.PI / 2;
+      const cx = A.x + dx * 0.5 + Math.cos(angle) * curve;
+      const cy = A.y + dy * 0.5 + Math.sin(angle) * curve;
+
+      ctx.beginPath();
+      ctx.moveTo(A.x, A.y);
+      ctx.quadraticCurveTo(cx, cy, B.x, B.y);
+      const g = ctx.createLinearGradient(A.x, A.y, B.x, B.y);
+      g.addColorStop(0, `rgba(255,105,155,${alpha})`);
+      g.addColorStop(0.5, `rgba(255,190,215,${on ? 0.95 : 0.15})`);
+      g.addColorStop(1, `rgba(190,110,255,${alpha})`);
+      ctx.strokeStyle = g;
+      ctx.lineWidth = on ? 2.4 : 1;
+      ctx.shadowBlur = on && !small ? 12 : 0;
+      ctx.shadowColor = "#ff80aa";
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+
+      // glowing light travelling along the active curve
+      if (on && !reduce) {
+        const t = ((time / 2400) + i * 0.37) % 1, u = 1 - t;
+        const px = u * u * A.x + 2 * u * t * cx + t * t * B.x;
+        const py = u * u * A.y + 2 * u * t * cy + t * t * B.y;
+        ctx.beginPath();
+        ctx.arc(px, py, 2.8, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(255,235,243,.95)";
+        ctx.shadowBlur = small ? 0 : 10;
+        ctx.shadowColor = "#ff9fc0";
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+    });
+  }
+
+  document.getElementById("dnaReset").addEventListener("click", () => {
+    hover = null; pinned = null;
+    if (document.activeElement && document.activeElement.classList.contains("dna-chip")) document.activeElement.blur();
+    refresh();
+  });
+
+  // reveal on scroll + remember whether the section is on screen
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      inView = entry.isIntersecting;
+      if (entry.isIntersecting && !section.classList.contains("visible")) {
+        section.classList.add("visible");
+        section.querySelectorAll(".dna-group").forEach(g => g.classList.add("visible"));
+        setTimeout(resizeCanvas, 150);
+      }
+    });
+  }, { threshold: 0.1 });
+  io.observe(section);
+
+  let pending = 0;
+  const schedule = () => { cancelAnimationFrame(pending); pending = requestAnimationFrame(resizeCanvas); };
+  window.addEventListener("resize", schedule);
+  window.addEventListener("orientationchange", schedule);
+  if (window.ResizeObserver) new ResizeObserver(schedule).observe(section);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(schedule);
+  setTimeout(resizeCanvas, 200);
+})();
+</script>
+
+<script>
+// ===== Unlock My Heart + continuous sky/mountain world =====
+(function () {
+  const R = (a, b) => a + Math.random() * (b - a);
+  const MSG = [
+    "My Eyes Always Look for You.",
+    "My Heart Always Chooses You.",
+    "My Arms Are Always Ready to Hold You.",
+    "My Mind Always Thinks About You.",
+    "My Heart Belongs to You, and I Never Want You to Feel Alone.",
+    "Every Day, I'll Be Right Here for You.",
+    "Every Hour, You Can Count on Me.",
+    "Every Minute, Your Happiness Matters to Me.",
+    "Every Second, I'll Remind You How Special You Are.",
+    "Forever, I'll Keep Choosing You.",
+    "Your Smile Is My Happiness, and I'll Always Try to Protect It.",
+    "Your Life Matters to Me More Than You Know.",
+    "Your Dreams Matter to Me, and I'll Always Support You.",
+    "When You Feel Weak, I'll Be Your Strength.",
+    "When You Feel Lost, You Can Always Find Comfort in Me.",
+    "You Don't Have to Be Strong All the Time. You Have Me.",
+    "Your Little Things Matter to Me, Even the Ones You Think Nobody Notices.",
+    "I Want to Be Your Safest Place, Not Another Reason to Worry.",
+    "No Matter What Life Brings, You Will Never Have to Face It Alone."
+  ];
+  const small = innerWidth < 600;
+
+  // ---- world: clouds, extra stars, mountains ----
+  const world = document.getElementById('uWorld');
+  for (let i = 0; i < (small ? 5 : 9); i++) {
+    const c = document.createElement('div'); c.className = 'cl';
+    c.style.cssText = `--x:${R(-15,80)}%;--y:${R(4,46)}%;--w:${R(40,75)}vw;--h:${R(70,150)}px;--o:${R(.35,.8).toFixed(2)};--t:${R(40,80).toFixed(0)}s;--dx:${R(-90,90).toFixed(0)}px`;
+    world.appendChild(c);
+  }
+  for (let i = 0; i < (small ? 40 : 80); i++) {
+    const s = document.createElement('i'); s.className = 'star'; const z = R(1, 2.6);
+    s.style.cssText = `left:${R(0,100)}%;top:${R(0,62)}%;width:${z}px;height:${z}px;--d:${R(2,6)}s;animation-delay:-${R(0,6)}s`;
+    world.appendChild(s);
+  }
+  const ridge = (seed, amp, det, n) => {
+    let d = 'M0 400 L0 ' + (400 - amp);
+    for (let i = 0; i <= n; i++) {
+      const x = i / n * 1440; let h = 0;
+      for (let o = 1; o <= det; o++) h += Math.sin(i / n * Math.PI * 2 * (o * 1.7) * (seed % 3 + 1) + seed * o) / (o * 1.3);
+      d += ' L' + x.toFixed(0) + ' ' + (400 - amp - (h + 1) * amp * .45).toFixed(1);
+    }
+    return d + ' L1440 400 Z';
+  };
+  const L = [ // [seed, amp, detail, pts, fill, rim, height%]
+    [1.3, 120, 2, 40, '#33477a', 'rgba(205,220,255,.35)', 62],
+    [2.1, 95, 3, 70, '#25386a', 'rgba(190,208,255,.28)', 50],
+    [3.7, 70, 4, 110, '#182650', 'rgba(170,190,245,.2)', 38],
+    [4.9, 45, 5, 160, '#0b142e', 'rgba(150,170,230,.14)', 26]
+  ];
+  let html = '';
+  L.forEach((l, i) => {
+    const d = ridge(l[0], l[1], l[2], l[3]);
+    html += `<svg viewBox="0 0 1440 400" preserveAspectRatio="none" style="height:${l[6]}%"><path d="${d}" fill="${l[4]}"/><path d="${d.replace(/ L1440 400 Z$/, '').replace(/^M0 400 L(0 \S+) /, 'M$1 ')}" fill="none" stroke="${l[5]}" stroke-width="1.5"/></svg>`;
+    if (i < 3) html += `<div class="fog" style="bottom:${l[6] - 14}%"></div>`;
+  });
+  const m = document.createElement('div'); m.className = 'mtn'; m.innerHTML = html; world.appendChild(m);
+
+  // ---- hearts ----
+  const pal = [['#ffd6e2','#ff6b91','#a04460','rgba(255,107,145,.55)'], ['#ffe3ea','#ff8fab','#b0486b','rgba(255,143,171,.55)'], ['#fff0f3','#f27ea0','#8f3556','rgba(255,170,200,.5)'], ['#ffd9f0','#e86fb0','#8e3a78','rgba(230,140,220,.5)'], ['#ffe6d9','#ff8f8f','#a8465a','rgba(255,160,150,.5)']];
+  const box = document.getElementById('hearts'), opened = new Set();
+  let busy = false, lastBtn = null;
+  MSG.forEach((_, i) => {
+    const p = pal[i % pal.length], id = 'uh' + i;
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'hb locked';
+    b.setAttribute('aria-label', 'Locked heart ' + String(i + 1).padStart(2, '0'));
+    b.style.cssText = `--r:${R(-7,7).toFixed(1)}deg;--sc:${R(.92,1.08).toFixed(2)};--ft:${R(4,7).toFixed(1)}s;--fd:-${R(0,6).toFixed(1)}s;--glow:${p[3]}`;
+    let sp = ''; for (let k = 0; k < 3; k++) sp += `<i class="spk" style="left:${R(0,95)}%;top:${R(0,90)}%;--sd:-${R(0,2.6).toFixed(1)}s"></i>`;
+    b.innerHTML = `<span class="fl2"><svg viewBox="0 0 100 92"><defs><radialGradient id="${id}" cx=".32" cy=".25" r=".95"><stop offset="0" stop-color="${p[0]}"/><stop offset=".45" stop-color="${p[1]}"/><stop offset="1" stop-color="${p[2]}"/></radialGradient></defs><path d="M50 88C20 62 4 44 4 27 4 13 15 4 28 4c10 0 18 5 22 13 4-8 12-13 22-13 13 0 24 9 24 23 0 17-16 35-46 61z" fill="url(#${id})"/><path d="M18 24c2-7 8-11 14-11" stroke="#fff" stroke-width="3.2" fill="none" stroke-linecap="round" opacity=".6"/><g class="lk"><path class="shk" d="M41 40v-6a9 9 0 0 1 18 0v6" fill="none" stroke="#fff2ed" stroke-width="3.4" stroke-linecap="round"/><rect x="36" y="40" width="28" height="20" rx="5" fill="#ffe9c9" stroke="#d9a86a" stroke-width="1.2"/><circle class="key" cx="50" cy="48.5" r="3" fill="#7a1f3d"/><rect class="key" x="49" y="49" width="2" height="6" rx="1" fill="#7a1f3d"/></g></svg>${sp}<span class="num">${String(i + 1).padStart(2, '0')}</span></span>`;
+    b.addEventListener('click', () => pick(i, b));
+    box.appendChild(b);
+  });
+
+  const burst = (el) => {
+    const r = el.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2, G = ['♥', '✦', '✧', '❤'], C = ['#ff8fab', '#fff2ed', '#ffd0e0', '#ff6b91'];
+    for (let k = 0; k < (small ? 12 : 18); k++) {
+      const e = document.createElement('span'), a = R(0, 6.28), d = R(50, 150); e.className = 'burst'; e.textContent = G[k % 4];
+      e.style.cssText = `--x:${cx}px;--y:${cy}px;--dx:${Math.cos(a) * d}px;--dy:${Math.sin(a) * d - 30}px;--s:${R(10,22)}px;--c:${C[k % 4]}`;
+      document.body.appendChild(e); setTimeout(() => e.remove(), 1400);
+    }
+  };
+
+  // ---- message card ----
+  const lm = document.createElement('div'); lm.className = 'lm'; lm.setAttribute('role', 'dialog'); lm.setAttribute('aria-modal', 'true');
+  lm.innerHTML = '<div class="lc"><button type="button" class="x" aria-label="Close message">×</button><div class="orn">❦ ♥ ❦</div><div class="no"></div><p class="msg"></p><div class="orn">✦ ♥ ✦</div></div>';
+  document.body.appendChild(lm);
+  const closeBtn = lm.querySelector('.x'), noEl = lm.querySelector('.no'), msgEl = lm.querySelector('.msg');
+  const show = (i) => { noEl.textContent = 'MESSAGE ' + String(i + 1).padStart(2, '0'); msgEl.textContent = MSG[i]; lm.classList.add('on'); document.documentElement.classList.add('modal-open'); setTimeout(() => closeBtn.focus({ preventScroll: true }), 100); };
+  const close = () => { lm.classList.remove('on'); document.documentElement.classList.remove('modal-open'); if (lastBtn) lastBtn.focus({ preventScroll: true }); };
+  closeBtn.addEventListener('click', close);
+  lm.addEventListener('click', (e) => { if (e.target === lm) close(); });
+  addEventListener('keydown', (e) => { if (e.key === 'Escape' && lm.classList.contains('on')) close(); });
+
+  const count = document.getElementById('uhCount');
+  const upd = () => { count.textContent = opened.size + ' of ' + MSG.length + ' unlocked'; };
+  function pick(i, b) {
+    if (busy) return; lastBtn = b;
+    if (opened.has(i)) { show(i); return; }
+    busy = true; b.classList.add('unlocking');
+    setTimeout(() => {
+      b.classList.remove('unlocking', 'locked'); b.classList.add('opened'); opened.add(i);
+      b.setAttribute('aria-label', 'Opened heart ' + String(i + 1).padStart(2, '0')); upd(); burst(b);
+      setTimeout(() => { show(i); busy = false; }, 650);
+    }, 750);
+  }
+  document.getElementById('surprise').addEventListener('click', () => {
+    if (busy) return;
+    const un = MSG.map((_, i) => i).filter((i) => !opened.has(i)), pool = un.length ? un : MSG.map((_, i) => i), i = pool[Math.floor(Math.random() * pool.length)];
+    const b = box.children[i]; b.scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(() => pick(i, b), 450);
+  });
+  upd();
 })();
 </script>
 </body>
